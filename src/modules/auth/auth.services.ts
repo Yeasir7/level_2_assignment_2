@@ -37,7 +37,7 @@ const loginDB = async (payLoad: Record<string, unknown>) => {
   }
 
   const token = jwt.sign(
-    { name: user.name, email: user.email },
+    { name: user.name, email: user.email, role: user.role },
     config.jwt_secret as string,
     {
       expiresIn: "7d",
