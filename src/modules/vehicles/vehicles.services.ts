@@ -20,7 +20,7 @@ const createVehicleInDB = async (payload: any) => {
       type,
       registration_number,
       daily_rent_price,
-      availability_status || "available",
+      availability_status,
     ],
   );
 
@@ -32,7 +32,57 @@ const getAllVehiclesFromDB = async () => {
   return result.rows;
 };
 
+const getSingleVehiclesFromDB = async (id: string) => {
+  const result = pool.query(
+    `
+        SELECT * FROM vehicles WHERE id=$1
+        `,
+    [id],
+  );
+  return result;
+};
+
+const updateSingleVehiclesFromDB = async (
+  payload: Record<string, unknown>,
+  id: string,
+) => {
+  const {
+    vehicle_name,
+    type,
+    registration_number,
+    daily_rent_price,
+    availability_status,
+  } = payload;
+  const result = pool.query(
+    `
+        UPDATE vehicles SET vehicle_name=$1,  type=$2, registration_number=$3, daily_rent_price=$4, availability_status=$5 WHERE id=$6 RETURNING*
+        `,
+    [
+      vehicle_name,
+      type,
+      registration_number,
+      daily_rent_price,
+      availability_status,
+      id,
+    ],
+  );
+  return result;
+};
+
+const deleteSingleVehiclesFromDB = async (id: string) => {
+  const result = pool.query(
+    `
+        DELETE FROM vehicles WHERE id=$1
+        `,
+    [id],
+  );
+  return result;
+};
+
 export const vehicleServices = {
   createVehicleInDB,
   getAllVehiclesFromDB,
+  getSingleVehiclesFromDB,
+  updateSingleVehiclesFromDB,
+  deleteSingleVehiclesFromDB,
 };
