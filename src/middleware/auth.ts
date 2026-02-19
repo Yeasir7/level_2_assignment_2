@@ -10,7 +10,7 @@ const auth = (...roles: string[]) => {
         throw new Error("You are not authorized");
       }
       const decode = jwt.verify(
-        token,
+        token as string,
         config.jwt_secret as string,
       ) as JwtPayload;
       console.log(decode);
@@ -28,3 +28,5 @@ const auth = (...roles: string[]) => {
     }
   };
 };
+
+export default auth

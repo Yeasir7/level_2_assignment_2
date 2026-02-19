@@ -47,7 +47,7 @@ const loginDB = async (payLoad: Record<string, unknown>) => {
   return { token, user };
 };
 
-export const userServices = {
+export const authServices = {
   registerUser,
   loginDB,
 };
