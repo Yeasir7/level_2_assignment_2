@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import initDB from "./config/db";
-import { userRouter } from "./modules/users/users.routes";
+import { authRouter } from "./modules/auth/auth.routes";
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(cors());
 initDB();
 
 // users
-app.use("/api/v1/users", userRouter)
+app.use("/api/v1/auth", authRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("server is running nice");
