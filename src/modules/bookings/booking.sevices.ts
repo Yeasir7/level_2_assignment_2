@@ -23,7 +23,6 @@ const createBookingInDB = async (payLoad: Record<string, unknown>) => {
   );
   const booking = result.rows[0];
   const vehicle = vehicleResult.rows[0];
-  console.log(booking, vehicle);
   return {
     id: booking.id,
     customer_id: booking.customer_id,

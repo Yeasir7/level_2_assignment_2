@@ -21,8 +21,17 @@ const createBooking = async (req: Request, res: Response) => {
 
 const getAllBooking = async (req: Request, res: Response) => {
   try {
-    const result = await bookingServicers.getBookingInDB();
-    console.log(result);
+    const user = req.user;
+    let result;
+
+    if (user?.role === "admin") {
+      result = await bookingServicers.getBookingInDB();
+    }
+    else if(user?.role === "customer"){
+      result = await bookingServicers.getSingleBookingInDB(
+      user?.id,
+    );
+    }
 
     res.status(200).json({
       success: true,
@@ -37,25 +46,8 @@ const getAllBooking = async (req: Request, res: Response) => {
   }
 };
 
-const getSingleBooking = async (req: Request, res: Response) => {
-  try {
-    const result = await bookingServicers.getSingleBookingInDB(req.params.id as string);
-
-    res.status(200).json({
-      success: true,
-      message: "Users retrieved successfully",
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-};
 
 export const bookingController = {
   createBooking,
   getAllBooking,
-  getSingleBooking,
 };

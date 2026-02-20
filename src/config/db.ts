@@ -31,15 +31,15 @@ const initDB = async () => {
   await pool.query(`
         CREATE TABLE IF NOT EXISTS bookings(
       id SERIAL PRIMARY KEY,
-      customer_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-      vehicle_id INTEGER REFERENCES vehicles(id) ON DELETE CASCADE,
+      customer_id INTEGER REFERENCES users(id) ON DELETE RESTRICT,
+      vehicle_id INTEGER REFERENCES vehicles(id) ON DELETE RESTRICT,
       rent_start_date DATE NOT NULL,
       rent_end_date DATE NOT NULL,
       total_price INTEGER NOT NULL,
       status VARCHAR(20) DEFAULT 'active'
       )
         `);
-        console.log("database connected");
+  console.log("database connected");
 };
 
 export default initDB;

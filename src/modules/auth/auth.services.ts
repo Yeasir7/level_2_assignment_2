@@ -44,6 +44,8 @@ const loginDB = async (payLoad: Record<string, unknown>) => {
     },
   );
 
+  delete user.password
+
   return { token, user };
 };
 
