@@ -29,13 +29,13 @@ This project was built using the following technologies:
 
 ### Installation
 1. Clone the repository:
-    ```bash
-   git clone [https://github.com/Yeasir7/level_2_assignment_2.git](https://github.com/Yeasir7/level_2_assignment_2.git)
+```bash
+   git clone https://github.com/Yeasir7/level_2_assignment_2.git
 ```
 
 2. Navigate into the directory and install dependencies:
 ```bash
- npm install
+   npm install
 ```
 
 3. Create a .env file in the root directory and add your environment variables:
