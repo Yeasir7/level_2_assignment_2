@@ -25,9 +25,16 @@ const customerUpdateUsersFromDB = async (
   );
   return result;
 };
+const deleteUsersFromDB = async (id: string) => {
+  const result = await pool.query(`DELETE FROM users WHERE id=$1 RETURNING *`, [
+    id,
+  ]);
+  return result;
+};
 
 export const userServices = {
   getAllUsersFromDB,
   adminUpdateUsersFromDB,
   customerUpdateUsersFromDB,
+  deleteUsersFromDB,
 };
