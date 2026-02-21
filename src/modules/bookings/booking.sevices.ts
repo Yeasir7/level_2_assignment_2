@@ -96,9 +96,63 @@ const getSingleBookingInDB = async (id:string) =>{
        }));
 }
 
+const updateBookingCustomerInDB = async (bookingId: string) => {
+  const checkResult = await pool.query(`SELECT * FROM bookings WHERE id=$1`, [
+    bookingId,
+  ]);
+
+  if (checkResult.rows.length === 0) {
+    throw new Error("Booking not found");
+  }
+  const booking = checkResult.rows[0];
+  const today = new Date();
+  const startDate = new Date(booking.rent_start_date);
+
+  if (today >= startDate) {
+    throw new Error("Cannot cancel. The rental period has already started.");
+  }
+  const updatedBooking = await pool.query(
+    `UPDATE bookings SET status='cancelled' WHERE id=$1 RETURNING *`,
+    [bookingId],
+  );
+
+  await pool.query(
+    `UPDATE vehicles SET availability_status='available' WHERE id=$1`,
+    [booking.vehicle_id],
+  );
+
+  return updatedBooking.rows[0];
+};
+
+const updateBookingAdminInDB = async (bookingId: string) => {
+
+  const checkResult = await pool.query(`SELECT * FROM bookings WHERE id=$1`, [
+    bookingId,
+  ]);
+
+  if (checkResult.rows.length === 0) {
+    throw new Error("Booking not found");
+  }
+  const booking = checkResult.rows[0];
+
+  const updatedBooking = await pool.query(
+    `UPDATE bookings SET status='returned' WHERE id=$1 RETURNING *`,
+    [bookingId],
+  );
+
+  await pool.query(
+    `UPDATE vehicles SET availability_status='available' WHERE id=$1`,
+    [booking.vehicle_id],
+  );
+
+  return updatedBooking.rows[0];
+};
+
 
 export const bookingServicers = {
   createBookingInDB,
   getBookingInDB,
   getSingleBookingInDB,
+  updateBookingCustomerInDB,
+  updateBookingAdminInDB,
 };

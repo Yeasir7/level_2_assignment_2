@@ -46,8 +46,42 @@ const getAllBooking = async (req: Request, res: Response) => {
   }
 };
 
+const updateBooking = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const bookingId = req.params.bookingId;
+    let result;
+
+    if (user?.role === "customer") {
+      result = await bookingServicers.updateBookingCustomerInDB(bookingId as string);
+
+      res.status(200).json({
+        success: true,
+        message: "Booking cancelled successfully",
+        data: result,
+      });
+    } else if (user?.role === "admin") {
+      result = await bookingServicers.updateBookingAdminInDB(bookingId as string);
+
+      res.status(200).json({
+        success: true,
+        message: "Booking marked as returned. Vehicle is now available",
+        data: result,
+      });
+    } else {
+      throw new Error("You are not authorized");
+    }
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 
 export const bookingController = {
   createBooking,
   getAllBooking,
+  updateBooking,
 };
