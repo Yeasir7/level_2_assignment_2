@@ -29,17 +29,21 @@ This project was built using the following technologies:
 
 ### Installation
 1. Clone the repository:
+    ```bash
    git clone [https://github.com/Yeasir7/level_2_assignment_2.git](https://github.com/Yeasir7/level_2_assignment_2.git)
+```
 
 2. Navigate into the directory and install dependencies:
 ```bash
  npm install
 ```
-3. Create a .env file in the root directory and add your environment variables:
 
+3. Create a .env file in the root directory and add your environment variables:
+```env
 PORT=5000
 CONNECTION_STRING=your_postgresql_connection_string
 JWT_SECRET=your_super_secret_key
+```
 
 4. Start the development server:
 ```bash
